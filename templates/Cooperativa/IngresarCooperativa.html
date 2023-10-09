@@ -1,18 +1,18 @@
-{% extends "Administrador/AdministradorVentana.html" %}
-{% load crispy_forms_tags%}
+{% extends "Administrador/Administrador.html" %}
+{% load crispy_forms_tags %}
 {% block content %}
 
 {% if form.errors %}
 <div class="alert alert-danger" role="alert">Ha sucedido un error</div>
 {% endif %}
 
-<h1>Registrar Proveedor</h1>
+<h1>Registrar Coopertiva</h1>
 
-<form action="{% url 'administrarProveedores' %}" enctype="multipart/form-data" method="POST">
+<form action="{% url 'administrarCooperativas' %}" enctype="multipart/form-data" method="POST">
     {% csrf_token %}
 
     
-    {{ form|crispy }}
+    {{ form | crispy }}
     <button type="submit" class="btn btn-primary">Guardar</button>
 </form>
 

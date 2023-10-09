@@ -8,16 +8,17 @@ from django.http import HttpRequest
 
 
 
-from forms import FormularioCooperativa
+from .forms import FormularioCooperativa
 
 
-from models import Cooperativa
+from .models import Cooperativa
 
 def PaginaInicio(request):
     return render(request, 'index.html', {})
 
 
 class GestionarCooperativa(HttpRequest):
+    
     def agregar_cooperativa(request):
         cooperativa = FormularioCooperativa()
         cooperativas = Cooperativa.objects.all()

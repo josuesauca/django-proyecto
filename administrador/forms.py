@@ -1,5 +1,5 @@
 from django import forms
-from models import Cooperativa
+from .models import Cooperativa
 
 class FormularioCooperativa(forms.ModelForm):
     class Meta:

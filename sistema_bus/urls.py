@@ -17,10 +17,19 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-import administrador.views as vista
+import administrador.views as vistas
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path('', vista.PaginaInicio,name='index'),
+    path('', vistas.PaginaInicio,name='index'),
+
+
+
+    #Rutas Cooperativa
+    path('administrarCooperativas/', vistas.GestionarCooperativa.agregar_cooperativa ,name='administrarCooperativas'),
+    path('editarCooperativas/<int:id>', vistas.GestionarCooperativa.editar_cooperativa ,name='editarCooperativas'),
+    path('actualizarCooperativas/<int:id>', vistas.GestionarCooperativa.actualizar_cooperativa ,name='actualizarCooperativas'),
+    path('eliminarCooperativas/<int:id>', vistas.GestionarCooperativa.eliminar_cooperativa, name = "eliminarCooperativas"),
+
 
 ]
