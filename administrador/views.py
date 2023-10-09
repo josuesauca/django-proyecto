@@ -5,6 +5,8 @@ from django.shortcuts import render
 
 from django.http import HttpResponse
 from django.http import HttpRequest
+from django.shortcuts import render, redirect
+
 
 
 
@@ -18,7 +20,7 @@ def PaginaInicio(request):
 
 
 class GestionarCooperativa(HttpRequest):
-    
+
     def agregar_cooperativa(request):
         cooperativa = FormularioCooperativa()
         cooperativas = Cooperativa.objects.all()
@@ -30,19 +32,19 @@ class GestionarCooperativa(HttpRequest):
         return render(request,"Cooperativa/IngresarCooperativa.html",{"form":cooperativa,"cooperativas":cooperativas})
 
     def editar_cooperativa(request,id):
-        proveedor = Proveedor.objects.get(id=id)
-        form = FormularioProveedor(instance=proveedor)
-        return render(request, "Administrador/EditarProveedor.html",{"form":form, "proveedor":proveedor})
+        cooperativa = Cooperativa.objects.get(pk=id)
+        form = FormularioCooperativa(instance=cooperativa)
+        return render(request, "Administrador/EditarProveedor.html",{"form":form, "cooperativa":cooperativa})
 
     def actualizar_cooperativa(request,id):
-        proveedor = Proveedor.objects.get(pk=id)
-        formulario = FormularioProveedor(request.POST,instance=proveedor)
+        proveedor = Cooperativa.objects.get(pk=id)
+        formulario = FormularioCooperativa(request.POST,instance=proveedor)
         if formulario.is_valid():
             formulario.save()
-            return redirect(to="administrarProveedores")
+            return redirect(to="administrarCooperativas")
 
     def eliminar_cooperativa(request,id):
-        proveedor = Proveedor.objects.get(pk=id)
+        proveedor = Cooperativa.objects.get(pk=id)
         proveedor.delete()
-        return redirect(to="administrarProveedores")
+        return redirect(to="administrarCooperativas")
         

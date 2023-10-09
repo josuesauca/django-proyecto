@@ -1,0 +1,20 @@
+{% extends "Administrador/AdministradorVentana.html" %}
+
+{% load crispy_forms_tags%}
+{% block content %}
+{% if form.errors %}
+    <div class="alert alert-danger" role="alert">Ha sucedido un error</div>
+{% endif %}
+
+<h1>Editar Producto</h1>
+
+<form action="{% url 'actualizarProducto'  producto.id%}" method="POST">
+  {% csrf_token %} 
+  
+  
+  
+  {{ form|crispy }}
+  <button type="submit" class="btn btn-primary">Guardar</button>
+  <a class="btn btn-warning" href = "{% url 'administradorProductos' %}" > Cancelar</a>
+</form>
+{% endblock %}
