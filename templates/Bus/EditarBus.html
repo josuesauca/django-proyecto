@@ -8,12 +8,12 @@
 
 <h1>Editar Cooperativa</h1>
 
-<form action="{% url 'actualizarCooperativas'  cooperativa.idCooperativa%}" method="POST">
+<form action="{% url 'actualizarBuses'  bus.idBus%}" method="POST">
   {% csrf_token %} 
   
   {{ form | crispy }}
   
   <button type="submit" class="btn btn-primary">Guardar</button>
-  <a class="btn btn-warning" href = "{% url 'administrarCooperativas' %}" > Cancelar</a>
+  <a class="btn btn-warning" href = "{% url 'administrarBuses' %}" > Cancelar</a>
 </form>
 {% endblock %}

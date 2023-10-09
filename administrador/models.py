@@ -29,7 +29,7 @@ class Cooperativa(models.Model):
     capacidad = models.IntegerField(null=True)
     
     def __str__(self):
-        return f"Cooperativa : {self.idCooperativa}  , {self.nombre} , {self.direccion}, {self.capacidad}"
+        return f"Cooperativa : {self.nombre}"
 
 class Bus(models.Model):
     idBus = models.AutoField(primary_key=True)
