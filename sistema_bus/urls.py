@@ -25,11 +25,18 @@ urlpatterns = [
 
 
 
-    #Rutas Cooperativa
+    #URLs Cooperativa
     path('administrarCooperativas/', vistas.GestionarCooperativa.agregar_cooperativa ,name='administrarCooperativas'),
     path('editarCooperativas/<int:id>', vistas.GestionarCooperativa.editar_cooperativa ,name='editarCooperativas'),
     path('actualizarCooperativas/<int:id>', vistas.GestionarCooperativa.actualizar_cooperativa ,name='actualizarCooperativas'),
     path('eliminarCooperativas/<int:id>', vistas.GestionarCooperativa.eliminar_cooperativa, name = "eliminarCooperativas"),
+
+    #URLs Bus
+    path('administrarBuses/', vistas.GestionarBus.agregar_bus ,name='administrarBuses'),
+    path('editarBuses/<int:id>', vistas.GestionarBus.editar_bus ,name='editarBuses'),
+    path('actualizarBuses/<int:id>', vistas.GestionarBus.actualizar_bus ,name='actualizarBuses'),
+    path('eliminarBuses/<int:id>', vistas.GestionarBus.eliminar_bus, name = "eliminarBuses"),
+
 
 
 ]
