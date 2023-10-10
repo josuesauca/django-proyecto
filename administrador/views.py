@@ -12,10 +12,13 @@ from django.shortcuts import render, redirect
 
 from .forms import FormularioCooperativa
 from .forms import FormularioBus
+from .forms import FormularioTarjeta
+
 
 
 from .models import Cooperativa
 from .models import Bus
+from .models import Tarjeta
 
 def PaginaInicio(request):
     return render(request, 'index.html', {})
@@ -78,4 +81,36 @@ class GestionarBus(HttpRequest):
         bus = Bus.objects.get(pk=id)
         bus.delete()
         return redirect(to="administrarBuses")
+        
+        
+class GestionarTarjeta(HttpRequest):
+
+    def agregar_tarjeta(request):
+        tarjeta = FormularioTarjeta()
+        tarjetas = Tarjeta.objects.all()
+
+        if request.method == 'POST':
+            formulario = FormularioTarjeta(data=request.POST)
+            
+            if formulario.is_valid():
+                formulario.save()
+
+        return render(request,"Tarjeta/IngresarTarjeta.html",{"form":tarjeta,"tarjetas":tarjetas})
+
+    def editar_tarjeta(request,id):
+        tarjeta = Tarjeta.objects.get(pk=id)
+        form = FormularioTarjeta(instance=tarjeta)
+        return render(request, "Tarjeta/EditarTarjeta.html",{"form":form, "tarjeta":tarjeta})
+
+    def actualizar_tarjeta(request,id):
+        tarjeta = Tarjeta.objects.get(pk=id)
+        formulario = FormularioTarjeta(request.POST,instance=tarjeta)
+        if formulario.is_valid():
+            formulario.save()
+            return redirect(to="administrarTarjetas")
+
+    def eliminar_tarjeta(request,id):
+        tarjeta = Tarjeta.objects.get(pk=id)
+        tarjeta.delete()
+        return redirect(to="administrarTarjetas")
         

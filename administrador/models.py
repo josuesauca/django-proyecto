@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 
 class Tarjeta(models.Model):
     idTarjeta = models.AutoField(primary_key=True)
-    numTarjeta = models.IntegerField(random.randint(100,10000), null=True, editable=False)
+    numTarjeta = models.IntegerField(null=True)
     saldoTarjeta = models.DecimalField(max_digits= 6,decimal_places=2,null=True) 
 
     def __str__(self):
@@ -20,7 +20,7 @@ class Pasajero(models.Model):
     cedula = models.IntegerField(null=True)
 
     def __str__(self):
-        return f"Pasajero : {self.idPasajero}  , {self.idTarjeta} , {self.idUsuario}, {self.nombres} , {self.cedula}"
+        return f"Pasajero : {self.nombres}"
 
 class Cooperativa(models.Model):
     idCooperativa = models.AutoField(primary_key=True)
