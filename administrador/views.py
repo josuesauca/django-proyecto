@@ -4,8 +4,10 @@ from django.shortcuts import render
 
 
 from django.http import HttpResponse
+from django.contrib import messages
 from django.http import HttpRequest
 from django.shortcuts import render, redirect
+from django.contrib.auth import login, authenticate, logout
 
 
 
@@ -22,6 +24,26 @@ from .models import Tarjeta
 
 def PaginaInicio(request):
     return render(request, 'index.html', {})
+
+
+class AccionesUsuario(HttpRequest):
+    def log_in(request):
+        if(request.method == "POST"):
+            user = authenticate(request, username=request.POST["username"], password=request.POST["password"])
+            if user is None:
+                messages.error(request,"Usuario no encontrado")
+                return redirect("login")
+            else:
+                login(request, user)
+                return redirect("index")
+        else:
+            return render(request, "Usuario/Login.html",{})
+            
+    def log_out(request):
+        logout(request)
+        return redirect("index")
+
+
 
 
 class GestionarCooperativa(HttpRequest):

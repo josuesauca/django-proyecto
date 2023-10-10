@@ -44,6 +44,9 @@ class Bus(models.Model):
         (3, "Turistico"),
     )
     tipo = models.IntegerField(choices=tiposBus, default=1)
+    
+    def __str__(self):
+        return f"Bus de la {self.idCooperativa}"
 
 class Viaje(models.Model):
     idPasajero = models.ForeignKey(Pasajero,null=True,on_delete=models.CASCADE)
