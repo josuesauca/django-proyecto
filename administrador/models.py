@@ -1,8 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-import random
-
 # Create your models here.
 class Tarjeta(models.Model):
     idTarjeta = models.AutoField(primary_key=True)
@@ -49,7 +47,6 @@ class Bus(models.Model):
         return f"Bus de la {self.idCooperativa}"
 
 class Viaje(models.Model):
-    
     idPasajero = models.ForeignKey(Pasajero,null=True,on_delete=models.CASCADE)
     idBus = models.ForeignKey(Bus,null=True,on_delete=models.CASCADE)
     costoViaje = models.DecimalField(max_digits= 6,decimal_places=2,null=True) 

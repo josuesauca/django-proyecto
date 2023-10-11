@@ -1,12 +1,9 @@
 from django.shortcuts import render
 
-
 # Create your views here. 
 
 import random
 
-
-from django.http import HttpResponse
 from django.contrib import messages
 from django.http import HttpRequest
 from django.shortcuts import render, redirect
@@ -29,27 +26,21 @@ from .models import Viaje
 def PaginaInicio(request):
     return render(request, 'index.html', {})
 
-
 class GestionarViaje(HttpRequest):
     def agregar_viaje(request):
         viaje = FormularioViaje()
         viajes = Viaje.objects.all()
-        
-        current_user = request.user
-
         tarjeta = Tarjeta.objects.create(numTarjeta =random.randint(10000,100000), saldoTarjeta=0.0)
-        print(request.POST)
-        """
         if request.method == 'POST':
-            formulario = FormularioViaje(data=request.POST)
+            formulario = FormularioViaje(data=request.method)
             if formulario.is_valid():
+                formulario.cleaned_data['idPasajero'] = str(request.user.id)
                 formulario.save()
-        """
+
         return render(request,"Viaje/Viajes.html",{"form":viaje,"viajes":viajes})
 
-
-
 class AccionesUsuario(HttpRequest):
+
     def log_in(request):
         if(request.method == "POST"):
             user = authenticate(request, username=request.POST["username"], password=request.POST["password"])
@@ -104,7 +95,6 @@ class AccionesUsuario(HttpRequest):
     def ver_informacion_pasajero(request):
         current_user = Pasajero.objects.get(idUsuario=request.user)
         return render(request, "Pasajero/InformacionPasajero.html",{'usuario':current_user})
-
 
 class GestionarCooperativa(HttpRequest):
 
@@ -163,7 +153,6 @@ class GestionarBus(HttpRequest):
         bus = Bus.objects.get(pk=id)
         bus.delete()
         return redirect(to="administrarBuses")
-        
         
 class GestionarTarjeta(HttpRequest):
 

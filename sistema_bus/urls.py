@@ -58,6 +58,7 @@ urlpatterns = [
     path('editarTarjetas/<int:id>', vistas.GestionarTarjeta.editar_tarjeta ,name='editarTarjetas'),
     path('actualizarTarjetas/<int:id>', vistas.GestionarTarjeta.actualizar_tarjeta ,name='actualizarTarjetas'),
     path('eliminarTarjetas/<int:id>', vistas.GestionarTarjeta.eliminar_tarjeta, name = "eliminarTarjetas"),
+
 ]
 
 if settings.DEBUG:

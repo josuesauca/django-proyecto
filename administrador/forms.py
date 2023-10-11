@@ -12,7 +12,6 @@ class FormularioCooperativa(forms.ModelForm):
         model = Cooperativa
         fields = "__all__"
 
-
 class FormularioBus(forms.ModelForm):
     class Meta:
         model = Bus

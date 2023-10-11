@@ -26,7 +26,7 @@
 
 <body>
     <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
-        <a class="navbar-brand" href=""><i class="fa-solid fa-house"></i> Inicio</a>
+        <a class="navbar-brand" href="{% url 'index' %}"><i class="fa-solid fa-house"></i> Inicio</a>
 
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -35,7 +35,6 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
-
 
                 {% if user.is_superuser %}
                     <a class="nav-link" href="{% url 'administrarCooperativas' %}" role="button" aria-haspopup="true" aria-expanded="false"> Administrador </a>
@@ -55,7 +54,7 @@
         </div>
     </nav>
 
-    <div class="content container">
+    <div class="content">
         {% block content %}
 
         <link rel="stylesheet" href="{% static "css/home.css" %}">
