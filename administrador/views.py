@@ -11,6 +11,7 @@ from django.http import HttpRequest
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.models import User
+from django.contrib.auth.models import Group
 
 
 
@@ -55,7 +56,7 @@ class AccionesUsuario(HttpRequest):
                 user = User.objects.create_user(
                         username=username, password=password1, email=email)
             user.save()
-            return redirect("index")
+            return redirect("registrarPasajero")
         else:
             return render(request, "Usuario/Usuario.html",{})
     
@@ -65,16 +66,21 @@ class AccionesUsuario(HttpRequest):
             cedula = request.POST['cedula']
             user = User.objects.last()
 
+            my_group = Group.objects.get(name='clientes') 
+            my_group.user_set.add(user)
+
             #Crear tarjeta para el pasajaero
             tarjeta = Tarjeta.objects.create(numTarjeta =random.randint(10000,100000), saldoTarjeta=0.0)
-            tarjeta = tarjeta.save()
+            tarjeta.save()
 
-            pasajero = Pasajero.objects.create_user(idUsuario = user, nombres=nombres_completos, cedula=cedula)
+            tarjeta_guardada = Tarjeta.objects.last()
+
+            pasajero = Pasajero.objects.create(idUsuario = user, nombres=nombres_completos, cedula=cedula, idTarjeta = tarjeta_guardada)
             pasajero.save()
 
             return redirect("login")
         else:
-            return render(request, "Usuario/Usuario.html",{})
+            return render(request, "Usuario/PerfilPasajero.html",{})
 
 
 class GestionarCooperativa(HttpRequest):

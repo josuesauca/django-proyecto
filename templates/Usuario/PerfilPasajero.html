@@ -9,19 +9,19 @@
         <div class="form-content">
             <div class="box">
                 
-                <a href="{% url 'index' %}">
+                <a href="{% url 'registrarUsuario' %}">
                     <i class="fa-solid fa-delete-left fa-2x"></i>
                 </a>
                 
                 <h3>Datos Pasajero</h3>
                 <center><i class="fa-solid fa-user-shield fa-10x"></i></center>
-                <form action="{% url 'registrarUsuario' %}"  method="POST">
+                <form action="{% url 'registrarPasajero' %}"  method="POST">
                     {% csrf_token %}
                     <div class="input-box">
                         <input type="text" placeholder="Nombres Completos" name ="full_name" class="input-control"  required>
                     </div>
                     <div class="input-box">
-                        <input type="email" placeholder="Cedula" name ="cedula" class="input-control"  required>
+                        <input type="text" placeholder="Cedula" name ="cedula" class="input-control"  required>
                     </div>
                     <button type="submit" class="btn">Registrar Datos</button>
                 </form>

@@ -40,10 +40,15 @@
 
             </ul>
 
-            <a class="btn btn-outline-success  float-right mx-3" href="{% url "login" %}" id = 'txtIngresar'>Login</a>
-            
-            <a class="navbar-brand" href=""><i class="fa-solid fa-cart-shopping"></i></a>
-            <span class="navbar-brand text-danger" id="navbar-count" >0</span>
+          
+
+            {% if user.is_authenticated %}
+                <button type="button" class="btn  btn-success" disabled>Bienvenido {{ user.get_username }}</button>
+                <a class="btn btn-outline-danger  float-right mx-3" id = "txtSalir" href="{% url "logout" %}" >Logout</a>
+            {% else %}
+                <a class="btn btn-outline-success  float-right mx-3" href="{% url "login" %}" id = 'txtIngresar'>Login</a>
+            {% endif %}
+
         </div>
     </nav>
 
