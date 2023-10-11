@@ -40,8 +40,6 @@
 
             </ul>
 
-          
-
             {% if user.is_authenticated %}
                 <button type="button" class="btn  btn-success" disabled>Bienvenido {{ user.get_username }}</button>
                 <a class="btn btn-outline-danger  float-right mx-3" id = "txtSalir" href="{% url "logout" %}" >Logout</a>
@@ -54,16 +52,18 @@
 
     <div class="content">
         {% block content %}
+
+        <link rel="stylesheet" href="{% static "css/home.css" %}">
         
         <section class="inicio" id="inicio">
             <div class="content">
-                <h3>ALEJANDRO BENCH <span> Ecommerce</span></h3>
+                <h3>ALEJANDRO BENCH <span> Sistema</span></h3>
                 <div class="container">
                     <p class="border border-secondary">La tecnología está en constante desarrollo, adquirir algunos componentes
                         dentro de tu localidad, puede resultar complicado, la mejor opción es realizarlo mediante
                         una tienda online, con variedad de productos y precios.
                     </p>
-                    <center><a class="btn btn-danger btn-lg" href="">Comprar Ahora</a></center>
+                    <center><a class="btn btn-danger btn-lg" href="{% url 'registrarUsuario' %}">Registrarse</a></center>
                 </div>
             </div>
             <div class="image">
