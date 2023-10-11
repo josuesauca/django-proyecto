@@ -5,6 +5,7 @@ from django import forms
 from .models import Cooperativa
 from .models import Bus
 from .models import Tarjeta
+from .models import Viaje
 
 class FormularioCooperativa(forms.ModelForm):
     class Meta:
@@ -22,7 +23,6 @@ class FormularioTarjeta(forms.ModelForm):
         model = Tarjeta
         fields = "__all__"
 
-
 class FormularioUsuario(UserCreationForm):
     class Meta:
         model = User
@@ -33,3 +33,11 @@ class FormularioUsuario(UserCreationForm):
         self.fields['username'].help_text = None
         self.fields['password1'].help_text = None
         self.fields['password2'].help_text = None
+
+class FormularioViaje(forms.ModelForm):
+    class Meta:
+        model = Viaje
+        fields = "__all__"
+        widgets = {
+            'idPasajero': forms.HiddenInput()
+        }

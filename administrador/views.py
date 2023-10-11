@@ -1,5 +1,6 @@
 from django.shortcuts import render
 
+
 # Create your views here. 
 
 import random
@@ -13,21 +14,39 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
 
-
-
 from .forms import FormularioCooperativa
 from .forms import FormularioBus
 from .forms import FormularioTarjeta
-
+from .forms import FormularioViaje
 
 
 from .models import Cooperativa
 from .models import Bus
 from .models import Tarjeta
 from .models import Pasajero
+from .models import Viaje
 
 def PaginaInicio(request):
     return render(request, 'index.html', {})
+
+
+class GestionarViaje(HttpRequest):
+    def agregar_viaje(request):
+        viaje = FormularioViaje()
+        viajes = Viaje.objects.all()
+        
+        current_user = request.user
+
+        tarjeta = Tarjeta.objects.create(numTarjeta =random.randint(10000,100000), saldoTarjeta=0.0)
+        print(request.POST)
+        """
+        if request.method == 'POST':
+            formulario = FormularioViaje(data=request.POST)
+            if formulario.is_valid():
+                formulario.save()
+        """
+        return render(request,"Viaje/Viajes.html",{"form":viaje,"viajes":viajes})
+
 
 
 class AccionesUsuario(HttpRequest):
@@ -69,7 +88,7 @@ class AccionesUsuario(HttpRequest):
             my_group = Group.objects.get(name='clientes') 
             my_group.user_set.add(user)
 
-            #Crear tarjeta para el pasajaero
+            #Crear tarjeta para el pasajero
             tarjeta = Tarjeta.objects.create(numTarjeta =random.randint(10000,100000), saldoTarjeta=0.0)
             tarjeta.save()
 

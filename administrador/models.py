@@ -1,9 +1,9 @@
 from django.db import models
-import random
 from django.contrib.auth.models import User
 
-# Create your models here.
+import random
 
+# Create your models here.
 class Tarjeta(models.Model):
     idTarjeta = models.AutoField(primary_key=True)
     numTarjeta = models.IntegerField(null=True)

@@ -35,8 +35,10 @@ urlpatterns = [
     path('registrarPasajero/', vistas.AccionesUsuario.registro_pasajero ,name='registrarPasajero'),
     path('logout/', vistas.AccionesUsuario.log_out ,name='logout'),
 
-
     path('informacionPasajero/', vistas.AccionesUsuario.ver_informacion_pasajero ,name='informacionPasajero'),
+
+    #URLs Viaje
+    path('gestionarViaje/', vistas.GestionarViaje.agregar_viaje ,name='gestionarViaje'),
 
 
     #URLs Cooperativa
@@ -56,7 +58,6 @@ urlpatterns = [
     path('editarTarjetas/<int:id>', vistas.GestionarTarjeta.editar_tarjeta ,name='editarTarjetas'),
     path('actualizarTarjetas/<int:id>', vistas.GestionarTarjeta.actualizar_tarjeta ,name='actualizarTarjetas'),
     path('eliminarTarjetas/<int:id>', vistas.GestionarTarjeta.eliminar_tarjeta, name = "eliminarTarjetas"),
-
 ]
 
 if settings.DEBUG:
