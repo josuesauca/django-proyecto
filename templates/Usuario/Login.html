@@ -19,35 +19,33 @@
         crossorigin="anonymous"></script>
     <title>Login</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
-    <link rel="stylesheet" href="{% static "css/login.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
 </head>
 <body>
 
     <div class="content container">
         {% block content %}
+
             <section class="form-main">
                 <div class="form-content">
                     <div class="box">
+                        <a href="{% url 'index' %}">
+                            <i class="fa-solid fa-delete-left fa-2x"></i>
+                        </a>
                         <h3><b>Bienvenido</b></h3>
                         <center><i class="fa-solid fa-user fa-10x"></i></center>
-
-                        {% if messages %}
-                            <ul class="messages">
-                                {{ messages }}
-                            </ul>
-                        {% endif %}
-                        
+                       
                         <form action="{% url 'login' %}" method="POST">
                             {% csrf_token %}
                             <div class="input-box">
                                 <input type="text" placeholder="Nombre de Usuario" class="input-control" name = "username" id = 'username' required>
                             </div>
                             <div class="input-box">
-                                <input type="password" placeholder="Password" class="input-control" name = "password" required>
+                                <input type="password" placeholder="Password" class="input-control" autocomplete="on" name = "password" required>
                             </div>
-                            <!--<button type="submit" class="btn" onclick = "guardarUsuario(document.getElementById('username').value )" >Iniciar Sesión</button>-->
                             <button type="submit" class="btn">Iniciar Sesión</button>
                         </form>
+                        <p>No tienes una cuenta? <a href="{% url 'index' %}" class="gradiente-text">Crear cuenta</a></p>
                     </div>
                 </div>
             </section>
