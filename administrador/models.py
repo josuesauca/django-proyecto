@@ -49,7 +49,12 @@ class Bus(models.Model):
         return f"Bus de la {self.idCooperativa}"
 
 class Viaje(models.Model):
+    
     idPasajero = models.ForeignKey(Pasajero,null=True,on_delete=models.CASCADE)
     idBus = models.ForeignKey(Bus,null=True,on_delete=models.CASCADE)
     costoViaje = models.DecimalField(max_digits= 6,decimal_places=2,null=True) 
+    destino = models.CharField(max_length=50,null=True) 
+
+    def __str__(self):
+        return f"Viaje a {self.destino}"
     
