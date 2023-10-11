@@ -81,6 +81,10 @@ class AccionesUsuario(HttpRequest):
             return redirect("login")
         else:
             return render(request, "Usuario/PerfilPasajero.html",{})
+        
+    def ver_informacion_pasajero(request):
+        current_user = Pasajero.objects.get(idUsuario=request.user)
+        return render(request, "Pasajero/InformacionPasajero.html",{'usuario':current_user})
 
 
 class GestionarCooperativa(HttpRequest):

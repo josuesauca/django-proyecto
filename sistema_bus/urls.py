@@ -29,12 +29,14 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path('', vistas.PaginaInicio,name='index'),
 
-
     #URLs Usuario
     path('login/', vistas.AccionesUsuario.log_in ,name='login'),
     path('registrarUsuario/', vistas.AccionesUsuario.registro_usuario ,name='registrarUsuario'),
     path('registrarPasajero/', vistas.AccionesUsuario.registro_pasajero ,name='registrarPasajero'),
     path('logout/', vistas.AccionesUsuario.log_out ,name='logout'),
+
+
+    path('informacionPasajero/', vistas.AccionesUsuario.ver_informacion_pasajero ,name='informacionPasajero'),
 
 
     #URLs Cooperativa

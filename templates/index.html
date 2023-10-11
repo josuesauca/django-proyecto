@@ -40,7 +40,7 @@
                 {% if user.is_superuser %}
                     <a class="nav-link" href="{% url 'administrarCooperativas' %}" role="button" aria-haspopup="true" aria-expanded="false"> Administrador </a>
                 {% else %}
-                    <a class="nav-link" href="" role="button" aria-haspopup="true" aria-expanded="false"> Datos del Usuario</a>
+                    <a class="nav-link" href="{% url 'informacionPasajero' %}" role="button" aria-haspopup="true" aria-expanded="false"> Datos del Usuario</a>
                     <a class="nav-link" href="" role="button" aria-haspopup="true" aria-expanded="false"> Ver Viajes </a>
                 {% endif %}
             </ul>
