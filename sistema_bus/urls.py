@@ -32,6 +32,8 @@ urlpatterns = [
 
     #URLs Usuario
     path('login/', vistas.AccionesUsuario.log_in ,name='login'),
+    path('registrarUsuario/', vistas.AccionesUsuario.registro_usuario ,name='registrarUsuario'),
+    path('registrarPasajero/', vistas.AccionesUsuario.registro_pasajero ,name='registrarPasajero'),
     path('logout/<int:id>', vistas.AccionesUsuario.log_out ,name='logout'),
 
 
