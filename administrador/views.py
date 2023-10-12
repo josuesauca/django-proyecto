@@ -2,6 +2,7 @@ from django.shortcuts import render
 
 # Create your views here. 
 
+from decimal import Decimal
 import random
 
 from django.contrib import messages
@@ -27,16 +28,19 @@ def PaginaInicio(request):
     return render(request, 'index.html', {})
 
 class GestionarViaje(HttpRequest):
+
     def agregar_viaje(request):
         viaje = FormularioViaje()
         viajes = Viaje.objects.all()
-        tarjeta = Tarjeta.objects.create(numTarjeta =random.randint(10000,100000), saldoTarjeta=0.0)
         if request.method == 'POST':
-            formulario = FormularioViaje(data=request.method)
-            if formulario.is_valid():
-                formulario.cleaned_data['idPasajero'] = str(request.user.id)
-                formulario.save()
+            pasajero_encontrado = Pasajero.objects.filter(idUsuario=request.user.id).first()
+            bus_encontrado = Bus.objects.filter(idBus=int(request.POST.get('idBus'))).first()
 
+            user = Viaje.objects.create(idPasajero = pasajero_encontrado,
+                                        idBus = bus_encontrado ,
+                                        costoViaje = Decimal(request.POST.get('costoViaje')),
+                                        destino = request.POST.get('destino'))
+            user.save()
         return render(request,"Viaje/Viajes.html",{"form":viaje,"viajes":viajes})
 
 class AccionesUsuario(HttpRequest):
