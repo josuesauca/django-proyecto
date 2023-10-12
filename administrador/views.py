@@ -33,14 +33,24 @@ class GestionarViaje(HttpRequest):
         viaje = FormularioViaje()
         viajes = Viaje.objects.all()
         if request.method == 'POST':
-            pasajero_encontrado = Pasajero.objects.filter(idUsuario=request.user.id).first()
-            bus_encontrado = Bus.objects.filter(idBus=int(request.POST.get('idBus'))).first()
 
-            user = Viaje.objects.create(idPasajero = pasajero_encontrado,
-                                        idBus = bus_encontrado ,
-                                        costoViaje = Decimal(request.POST.get('costoViaje')),
-                                        destino = request.POST.get('destino'))
-            user.save()
+            pasajero_encontrado = Pasajero.objects.filter(idUsuario=request.user.id).first()
+            
+            bus_encontrado = Bus.objects.filter(idBus=int(request.POST.get('idBus'))).first()
+            
+            if pasajero_encontrado.idTarjeta.saldoTarjeta > Decimal(request.POST.get('costoViaje')):
+
+                pasajero_encontrado.idTarjeta.saldoTarjeta = pasajero_encontrado.idTarjeta.saldoTarjeta - Decimal(request.POST.get('costoViaje'))
+                
+                print("slga",pasajero_encontrado.idTarjeta.saldoTarjeta)
+                
+                #pasajero_encontrado.up
+
+                user = Viaje.objects.create(idPasajero = pasajero_encontrado,
+                                            idBus = bus_encontrado ,
+                                            costoViaje = Decimal(request.POST.get('costoViaje')),
+                                            destino = request.POST.get('destino'))
+                user.save()
         return render(request,"Viaje/Viajes.html",{"form":viaje,"viajes":viajes})
 
 class AccionesUsuario(HttpRequest):
