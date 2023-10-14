@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "administrador",
+    "administrador.apps.AdministradorConfig",
     "crispy_forms",
     'crispy_bootstrap4',
 ]
