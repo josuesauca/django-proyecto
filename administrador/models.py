@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models.signals import pre_save
+from django.db.models.signals import post_save
 
 
 # Create your models here.
@@ -27,6 +27,14 @@ def create_profile(sender, instance,created, **kwargs):
         Pasajero.objects.create(user=instance)
         print("Profile created")
 
+post_save.connect(create_profile, sender=User)
+
+def update_profile(sender, instance,created,**kwargs):
+    if created == False:
+        instance.pasajero.save()
+        print('Profile updated')
+
+post_save.connect(update_profile, sender=User)
 
 class Cooperativa(models.Model):
     idCooperativa = models.AutoField(primary_key=True)
