@@ -24,7 +24,7 @@ class Pasajero(models.Model):
     
 def create_profile(sender, instance,created, **kwargs):
     if created:
-        Pasajero.objects.create(user=instance)
+        Pasajero.objects.create(idUsuario=instance)
         print("Profile created")
 
 post_save.connect(create_profile, sender=User)
