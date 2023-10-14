@@ -198,4 +198,16 @@ class GestionarTarjeta(HttpRequest):
         tarjeta = Tarjeta.objects.get(pk=id)
         tarjeta.delete()
         return redirect(to="administrarTarjetas")
-        
+
+"""
+from django.core.mail import EmailMessage
+from django.conf import settings
+from django.template.loader import render_to_string
+
+def correo(request,id):
+
+    email = EmailMessage(
+
+    )
+"""
+
