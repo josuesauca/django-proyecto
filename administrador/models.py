@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.signals import pre_save
+
 
 # Create your models here.
 class Tarjeta(models.Model):
@@ -19,6 +21,12 @@ class Pasajero(models.Model):
 
     def __str__(self):
         return f"Pasajero : {self.nombres}"
+    
+def create_profile(sender, instance,created, **kwargs):
+    if created:
+        Pasajero.objects.create(user=instance)
+        print("Profile created")
+
 
 class Cooperativa(models.Model):
     idCooperativa = models.AutoField(primary_key=True)
