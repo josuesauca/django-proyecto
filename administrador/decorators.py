@@ -27,8 +27,7 @@ def admin_only(view_func):
         group = None
         if request.user.groups.exists():
             group = request.user.groups.all()[0].name
-        if group == 'clientes':
-            return redirect('index')
         if group == 'admin':    
             return view_func(request,*args,**kwargs)
+        return redirect('index')
     return wrapper_func
