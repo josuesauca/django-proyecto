@@ -70,7 +70,12 @@
                         dentro de tu localidad, puede resultar complicado, la mejor opción es realizarlo mediante
                         una tienda online, con variedad de productos y precios.
                     </p>
-                    <center><a class="btn btn-danger btn-lg" href="{% url 'registrarUsuario' %}">Registrarse</a></center>
+
+                {% if user.is_authenticated %}
+                    <center><a class="btn btn-danger btn-lg" href="{% url 'index' %}">Inicio</a></center>
+                {% else %}
+                    <center><a class="btn btn-danger btn-lg" href="{% url 'login' %}">Ingresar al Sistema</a></center>
+                {% endif %}
                 </div>
             </div>
             <div class="image">

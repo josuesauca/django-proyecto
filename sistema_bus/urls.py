@@ -40,7 +40,6 @@ urlpatterns = [
     #URLs Viaje
     path('gestionarViaje/', vistas.GestionarViaje.agregar_viaje ,name='gestionarViaje'),
 
-
     #URLs Cooperativa
     path('administrarCooperativas/', vistas.GestionarCooperativa.agregar_cooperativa ,name='administrarCooperativas'),
     path('editarCooperativas/<int:id>', vistas.GestionarCooperativa.editar_cooperativa ,name='editarCooperativas'),
