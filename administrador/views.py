@@ -33,7 +33,6 @@ def check_admin(user):
    return user.is_superuser
 
 class GestionarViaje(HttpRequest):
-    @unauthenticated_user
 
     def agregar_viaje(request):
         viaje = FormularioViaje()
@@ -90,7 +89,7 @@ class AccionesUsuario(HttpRequest):
             return redirect("registrarPasajero")
         else:
             return render(request, "Usuario/Usuario.html",{})
-    
+        
     def registro_pasajero(request):
         if(request.method == "POST"):
             nombres_completos = request.POST['full_name']
