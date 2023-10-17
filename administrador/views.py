@@ -11,7 +11,6 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
-from django.contrib.auth.decorators import user_passes_test
 
 from .forms import FormularioCooperativa
 from .forms import FormularioBus
@@ -35,28 +34,28 @@ def check_admin(user):
 class GestionarViaje(HttpRequest):
 
     def agregar_viaje(request):
-        viaje = FormularioViaje()
-        viajes = Viaje.objects.all()
-        if request.method == 'POST':
+        if (request.user.is_authenticated):
+            viaje = FormularioViaje()
+            viajes = Viaje.objects.all()
+            if request.method == 'POST':
 
-            pasajero_encontrado = Pasajero.objects.filter(idUsuario=request.user.id).first()
-            
-            bus_encontrado = Bus.objects.filter(idBus=int(request.POST.get('idBus'))).first()
-            
-            if pasajero_encontrado.idTarjeta.saldoTarjeta > Decimal(request.POST.get('costoViaje')):
-
-                pasajero_encontrado.idTarjeta.saldoTarjeta = pasajero_encontrado.idTarjeta.saldoTarjeta - Decimal(request.POST.get('costoViaje'))
+                pasajero_encontrado = Pasajero.objects.filter(idUsuario=request.user.id).first()
+                bus_encontrado = Bus.objects.filter(idBus=int(request.POST.get('idBus'))).first()
                 
-                print("slga",pasajero_encontrado.idTarjeta.saldoTarjeta)
-                
-                #pasajero_encontrado.up
+                if pasajero_encontrado.idTarjeta.saldoTarjeta > Decimal(request.POST.get('costoViaje')):
 
-                user = Viaje.objects.create(idPasajero = pasajero_encontrado,
-                                            idBus = bus_encontrado ,
-                                            costoViaje = Decimal(request.POST.get('costoViaje')),
-                                            destino = request.POST.get('destino'))
-                user.save()
-        return render(request,"Viaje/Viajes.html",{"form":viaje,"viajes":viajes})
+                    pasajero_encontrado.idTarjeta.saldoTarjeta = pasajero_encontrado.idTarjeta.saldoTarjeta - Decimal(request.POST.get('costoViaje'))
+                    print("slga",pasajero_encontrado.idTarjeta.saldoTarjeta)
+                    
+                    #pasajero_encontrado.up
+                    user = Viaje.objects.create(idPasajero = pasajero_encontrado,
+                                                idBus = bus_encontrado ,
+                                                costoViaje = Decimal(request.POST.get('costoViaje')),
+                                                destino = request.POST.get('destino'))
+                    user.save()
+            return render(request,"Viaje/Viajes.html",{"form":viaje,"viajes":viajes})
+        else:
+            return redirect('index')
 
 class AccionesUsuario(HttpRequest):
 
