@@ -61,6 +61,7 @@ class GestionarViaje(HttpRequest):
 
 class AccionesUsuario(HttpRequest):
 
+    @unauthenticated_user
     def log_in(request):
         if(request.method == "POST"):
             user = authenticate(request, username=request.POST["username"], password=request.POST["password"])
@@ -118,7 +119,7 @@ class AccionesUsuario(HttpRequest):
 
 class GestionarCooperativa(HttpRequest):
 
-    @unauthenticated_user
+    #@allowed_user(allowed_roles=['admin'])
     @admin_only
     def agregar_cooperativa(request):
         cooperativa = FormularioCooperativa()
@@ -130,14 +131,12 @@ class GestionarCooperativa(HttpRequest):
                 formulario.save()
         return render(request,"Cooperativa/IngresarCooperativa.html",{"form":cooperativa,"cooperativas":cooperativas})
 
-    @unauthenticated_user
     @admin_only
     def editar_cooperativa(request,id):
         cooperativa = Cooperativa.objects.get(pk=id)
         form = FormularioCooperativa(instance=cooperativa)
         return render(request, "Cooperativa/EditarCooperativa.html",{"form":form, "cooperativa":cooperativa})
 
-    @unauthenticated_user
     @admin_only
     def actualizar_cooperativa(request,id):
         proveedor = Cooperativa.objects.get(pk=id)
@@ -146,7 +145,6 @@ class GestionarCooperativa(HttpRequest):
             formulario.save()
             return redirect(to="administrarCooperativas")
     
-    @unauthenticated_user
     @admin_only
     def eliminar_cooperativa(request,id):
         proveedor = Cooperativa.objects.get(pk=id)
@@ -154,9 +152,8 @@ class GestionarCooperativa(HttpRequest):
         return redirect(to="administrarCooperativas")
 
 class GestionarBus(HttpRequest):
-    @unauthenticated_user
+
     @admin_only
-    
     def agregar_bus(request):
         bus = FormularioBus()
         buses = Bus.objects.all()
@@ -167,13 +164,13 @@ class GestionarBus(HttpRequest):
                 formulario.save()
         return render(request,"Bus/IngresarBus.html",{"form":bus,"buses":buses})
 
-    @allowed_user(allowed_roles=['admin'])
+    @admin_only
     def editar_bus(request,id):
         bus = Bus.objects.get(pk=id)
         form = FormularioBus(instance=bus)
         return render(request, "Bus/EditarBus.html",{"form":form, "bus":bus})
     
-    @allowed_user(allowed_roles=['admin'])
+    @admin_only
     def actualizar_bus(request,id):
         bus = Bus.objects.get(pk=id)
         formulario = FormularioBus(request.POST,instance=bus)
@@ -181,7 +178,7 @@ class GestionarBus(HttpRequest):
             formulario.save()
             return redirect(to="administrarBuses")
         
-    @allowed_user(allowed_roles=['admin'])
+    @admin_only
     def eliminar_bus(request,id):
         bus = Bus.objects.get(pk=id)
         bus.delete()
@@ -189,7 +186,7 @@ class GestionarBus(HttpRequest):
         
 class GestionarTarjeta(HttpRequest):
 
-    @user_passes_test(check_admin)
+    @admin_only
     def agregar_tarjeta(request):
         tarjeta = FormularioTarjeta()
         tarjetas = Tarjeta.objects.all()
@@ -202,13 +199,13 @@ class GestionarTarjeta(HttpRequest):
 
         return render(request,"Tarjeta/IngresarTarjeta.html",{"form":tarjeta,"tarjetas":tarjetas})
 
-    @user_passes_test(check_admin)
+    @admin_only
     def editar_tarjeta(request,id):
         tarjeta = Tarjeta.objects.get(pk=id)
         form = FormularioTarjeta(instance=tarjeta)
         return render(request, "Tarjeta/EditarTarjeta.html",{"form":form, "tarjeta":tarjeta})
     
-    @user_passes_test(check_admin)
+    @admin_only
     def actualizar_tarjeta(request,id):
         tarjeta = Tarjeta.objects.get(pk=id)
         formulario = FormularioTarjeta(request.POST,instance=tarjeta)
@@ -216,7 +213,7 @@ class GestionarTarjeta(HttpRequest):
             formulario.save()
             return redirect(to="administrarTarjetas")
         
-    @user_passes_test(check_admin)
+    @admin_only
     def eliminar_tarjeta(request,id):
         tarjeta = Tarjeta.objects.get(pk=id)
         tarjeta.delete()
