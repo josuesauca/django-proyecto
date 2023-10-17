@@ -11,12 +11,12 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.models import Group
+from django.contrib.auth.decorators import user_passes_test
 
 from .forms import FormularioCooperativa
 from .forms import FormularioBus
 from .forms import FormularioTarjeta
 from .forms import FormularioViaje
-
 
 from .models import Cooperativa
 from .models import Bus
@@ -24,8 +24,14 @@ from .models import Tarjeta
 from .models import Pasajero
 from .models import Viaje
 
+from .decorators import unauthenticated_user
+from .decorators import allowed_user
+
 def PaginaInicio(request):
     return render(request, 'index.html', {})
+
+def check_admin(user):
+   return user.is_superuser
 
 class GestionarViaje(HttpRequest):
 
@@ -138,9 +144,9 @@ class GestionarCooperativa(HttpRequest):
         proveedor = Cooperativa.objects.get(pk=id)
         proveedor.delete()
         return redirect(to="administrarCooperativas")
-        
-class GestionarBus(HttpRequest):
 
+class GestionarBus(HttpRequest):
+    @allowed_user(allowed_roles=['admin'])
     def agregar_bus(request):
         bus = FormularioBus()
         buses = Bus.objects.all()
@@ -151,18 +157,21 @@ class GestionarBus(HttpRequest):
                 formulario.save()
         return render(request,"Bus/IngresarBus.html",{"form":bus,"buses":buses})
 
+    @allowed_user(allowed_roles=['admin'])
     def editar_bus(request,id):
         bus = Bus.objects.get(pk=id)
         form = FormularioBus(instance=bus)
         return render(request, "Bus/EditarBus.html",{"form":form, "bus":bus})
-
+    
+    @allowed_user(allowed_roles=['admin'])
     def actualizar_bus(request,id):
         bus = Bus.objects.get(pk=id)
         formulario = FormularioBus(request.POST,instance=bus)
         if formulario.is_valid():
             formulario.save()
             return redirect(to="administrarBuses")
-
+        
+    @allowed_user(allowed_roles=['admin'])
     def eliminar_bus(request,id):
         bus = Bus.objects.get(pk=id)
         bus.delete()
@@ -170,6 +179,7 @@ class GestionarBus(HttpRequest):
         
 class GestionarTarjeta(HttpRequest):
 
+    @user_passes_test(check_admin)
     def agregar_tarjeta(request):
         tarjeta = FormularioTarjeta()
         tarjetas = Tarjeta.objects.all()
@@ -182,18 +192,21 @@ class GestionarTarjeta(HttpRequest):
 
         return render(request,"Tarjeta/IngresarTarjeta.html",{"form":tarjeta,"tarjetas":tarjetas})
 
+    @user_passes_test(check_admin)
     def editar_tarjeta(request,id):
         tarjeta = Tarjeta.objects.get(pk=id)
         form = FormularioTarjeta(instance=tarjeta)
         return render(request, "Tarjeta/EditarTarjeta.html",{"form":form, "tarjeta":tarjeta})
-
+    
+    @user_passes_test(check_admin)
     def actualizar_tarjeta(request,id):
         tarjeta = Tarjeta.objects.get(pk=id)
         formulario = FormularioTarjeta(request.POST,instance=tarjeta)
         if formulario.is_valid():
             formulario.save()
             return redirect(to="administrarTarjetas")
-
+        
+    @user_passes_test(check_admin)
     def eliminar_tarjeta(request,id):
         tarjeta = Tarjeta.objects.get(pk=id)
         tarjeta.delete()
