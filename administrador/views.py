@@ -24,8 +24,7 @@ from .models import Tarjeta
 from .models import Pasajero
 from .models import Viaje
 
-from .decorators import unauthenticated_user
-from .decorators import allowed_user
+from .decorators import unauthenticated_user, allowed_user, admin_only
 
 def PaginaInicio(request):
     return render(request, 'index.html', {})
@@ -34,6 +33,7 @@ def check_admin(user):
    return user.is_superuser
 
 class GestionarViaje(HttpRequest):
+    @unauthenticated_user
 
     def agregar_viaje(request):
         viaje = FormularioViaje()
@@ -118,6 +118,8 @@ class AccionesUsuario(HttpRequest):
 
 class GestionarCooperativa(HttpRequest):
 
+    @unauthenticated_user
+    @admin_only
     def agregar_cooperativa(request):
         cooperativa = FormularioCooperativa()
         cooperativas = Cooperativa.objects.all()
@@ -128,25 +130,33 @@ class GestionarCooperativa(HttpRequest):
                 formulario.save()
         return render(request,"Cooperativa/IngresarCooperativa.html",{"form":cooperativa,"cooperativas":cooperativas})
 
+    @unauthenticated_user
+    @admin_only
     def editar_cooperativa(request,id):
         cooperativa = Cooperativa.objects.get(pk=id)
         form = FormularioCooperativa(instance=cooperativa)
         return render(request, "Cooperativa/EditarCooperativa.html",{"form":form, "cooperativa":cooperativa})
 
+    @unauthenticated_user
+    @admin_only
     def actualizar_cooperativa(request,id):
         proveedor = Cooperativa.objects.get(pk=id)
         formulario = FormularioCooperativa(request.POST,instance=proveedor)
         if formulario.is_valid():
             formulario.save()
             return redirect(to="administrarCooperativas")
-
+    
+    @unauthenticated_user
+    @admin_only
     def eliminar_cooperativa(request,id):
         proveedor = Cooperativa.objects.get(pk=id)
         proveedor.delete()
         return redirect(to="administrarCooperativas")
 
 class GestionarBus(HttpRequest):
-    @allowed_user(allowed_roles=['admin'])
+    @unauthenticated_user
+    @admin_only
+    
     def agregar_bus(request):
         bus = FormularioBus()
         buses = Bus.objects.all()
